@@ -1,0 +1,12 @@
+REVOKE EXECUTE ON FUNCTION public.next_journal_number(uuid) FROM PUBLIC, anon;
+REVOKE EXECUTE ON FUNCTION public.resolve_accounting_mapping(uuid, text, uuid, uuid, uuid, text) FROM PUBLIC, anon;
+REVOKE EXECUTE ON FUNCTION public.post_accounting_event(uuid, text, text, uuid, date, numeric, text, text, uuid, uuid, uuid, uuid, uuid, text) FROM PUBLIC, anon;
+REVOKE EXECUTE ON FUNCTION public.seed_sample_chart_of_accounts(uuid) FROM PUBLIC, anon;
+REVOKE EXECUTE ON FUNCTION public.seed_default_accounting_mappings(uuid) FROM PUBLIC, anon;
+REVOKE EXECUTE ON FUNCTION public.retry_accounting_exception(uuid) FROM PUBLIC, anon;
+REVOKE EXECUTE ON FUNCTION public.reverse_journal(uuid, text) FROM PUBLIC, anon;
+REVOKE EXECUTE ON FUNCTION public.post_manual_journal(uuid) FROM PUBLIC, anon;
+REVOKE EXECUTE ON FUNCTION public.accounting_on_savings_transaction() FROM PUBLIC, anon, authenticated;
+REVOKE EXECUTE ON FUNCTION public.accounting_on_loan_transaction() FROM PUBLIC, anon, authenticated;
+REVOKE EXECUTE ON FUNCTION public.accounting_on_checkoff_settlement() FROM PUBLIC, anon, authenticated;
+REVOKE EXECUTE ON FUNCTION public.accounting_on_withdrawal_fee() FROM PUBLIC, anon, authenticated;
