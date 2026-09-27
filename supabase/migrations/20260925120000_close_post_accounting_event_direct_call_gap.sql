@@ -1,0 +1,56 @@
+-- Security fix: post_accounting_event() permission gap.
+--
+-- 20260915191245_ab16e4a2-c51c-43ae-b978-30c5b95e6bac.sql revoked EXECUTE on
+-- the four accounting_on_* trigger wrapper functions from PUBLIC, anon AND
+-- authenticated:
+--
+--   REVOKE EXECUTE ON FUNCTION public.accounting_on_savings_transaction()
+--     FROM PUBLIC, anon, authenticated;
+--   ... (loan_transaction, checkoff_settlement, withdrawal_fee likewise)
+--
+-- but the function those triggers actually call to do the posting,
+-- post_accounting_event(), was only revoked FROM PUBLIC, anon in that same
+-- migration - `authenticated` was left with EXECUTE. That is the one
+-- function in the accounting engine where this was an oversight rather than
+-- a deliberate choice: seed_sample_chart_of_accounts, reverse_journal,
+-- post_manual_journal, retry_accounting_exception and
+-- seed_default_accounting_mappings are ALSO left executable by
+-- `authenticated`, but that is correct for them - the UI calls them
+-- directly via supabase.rpc() (admin.accounting.accounts.tsx,
+-- admin.accounting.journals.tsx, admin.accounting.mappings.tsx) and each
+-- has its own has_permission(_cooperative_id, 'accounting.edit'/'post'/
+-- 'reverse', auth.uid()) check. post_accounting_event() has no such check,
+-- is never called from any UI code (verified against src/ during the
+-- Stage 0-9 audit), and is only ever meant to be invoked from inside the
+-- accounting_on_* triggers. Leaving it executable by `authenticated` let
+-- any signed-in user call it directly via supabase.rpc() and post an
+-- arbitrary balanced journal into ANY cooperative's ledger (it is
+-- SECURITY DEFINER, so it bypasses RLS - only accounting-period/mapping
+-- validity is checked, not who is calling or which cooperative they
+-- belong to).
+--
+-- Fix: revoke the missing grant, matching the four trigger wrappers.
+--
+-- Deliberately NOT adding a has_permission()/auth.uid() check inside the
+-- function body as an extra layer, even though that is the pattern used
+-- by reverse_journal/post_manual_journal/retry_accounting_exception: this
+-- codebase never treats auth.uid() as reliably NULL inside a trigger call
+-- (no such check exists anywhere in supabase/migrations), because it isn't
+-- - request.jwt.claims is a session-level setting that stays populated
+-- through the whole transaction regardless of nested SECURITY DEFINER
+-- calls. Gating on auth.uid()/has_permission('accounting.post') here would
+-- reject the auto-posting trigger itself for the overwhelming majority of
+-- real actions (a member's own savings contribution, a teller's check-off
+-- settlement, a loan officer's disbursement) since the person performing
+-- the operational action is essentially never the one holding the
+-- separate 'accounting.post' permission, breaking every automated hook.
+-- REVOKE is the correct, sufficient and non-regressive control here:
+-- PostgREST calls this RPC as the `authenticated` role and Postgres denies
+-- EXECUTE outright before the function body ever runs, while a trigger
+-- fired during an INSERT/UPDATE executes accounting_on_*() as SECURITY
+-- DEFINER, which elevates the *current role* used for the nested
+-- post_accounting_event() call to that function's (superuser-equivalent)
+-- owner - bypassing the grant check entirely, independent of auth.uid().
+REVOKE EXECUTE ON FUNCTION public.post_accounting_event(
+  uuid, text, text, uuid, date, numeric, text, text, uuid, uuid, uuid, uuid, uuid, text
+) FROM authenticated;

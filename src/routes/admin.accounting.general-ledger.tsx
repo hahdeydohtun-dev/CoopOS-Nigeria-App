@@ -144,9 +144,8 @@ function GeneralLedgerPage() {
     : 0;
   const totalDebit = rows.reduce((sum, row) => sum + Number(row.debit), 0);
   const totalCredit = rows.reduce((sum, row) => sum + Number(row.credit), 0);
-  const closing = ledger.data?.length
-    ? Number(ledger.data[ledger.data.length - 1].running_balance)
-    : opening;
+  const lastRow = ledger.data?.at(-1);
+  const closing = lastRow ? Number(lastRow.running_balance) : opening;
   const naturalOpening = selectedAccount?.normal_balance === "CREDIT" ? -opening : opening;
   const naturalClosing = selectedAccount?.normal_balance === "CREDIT" ? -closing : closing;
 

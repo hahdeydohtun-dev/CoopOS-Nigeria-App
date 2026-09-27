@@ -354,7 +354,7 @@ function ChartOfAccountsPage() {
               <Label className="text-xs">Normal side</Label>
               <Select
                 value={form.normal_balance}
-                onValueChange={(v) => setForm({ ...form, normal_balance: v })}
+                onValueChange={(v) => setForm({ ...form, normal_balance: v as "DEBIT" | "CREDIT" })}
               >
                 <SelectTrigger>
                   <SelectValue />
