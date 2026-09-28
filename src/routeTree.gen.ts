@@ -53,10 +53,12 @@ import { Route as PortalStatementsRouteImport } from './routes/portal.statements
 import { Route as PortalWithdrawalsRouteImport } from './routes/portal.withdrawals'
 import { Route as AdminAccountingIndexRouteImport } from './routes/admin.accounting.index'
 import { Route as AdminAccountingAccountsRouteImport } from './routes/admin.accounting.accounts'
+import { Route as AdminAccountingExceptionsRouteImport } from './routes/admin.accounting.exceptions'
+import { Route as AdminAccountingGeneralLedgerRouteImport } from './routes/admin.accounting.general-ledger'
 import { Route as AdminAccountingJournalsRouteImport } from './routes/admin.accounting.journals'
 import { Route as AdminAccountingMappingsRouteImport } from './routes/admin.accounting.mappings'
+import { Route as AdminAccountingReconciliationsRouteImport } from './routes/admin.accounting.reconciliations'
 import { Route as AdminAccountingTrialBalanceRouteImport } from './routes/admin.accounting.trial-balance'
-import { Route as AdminAccountingGeneralLedgerRouteImport } from './routes/admin.accounting.general-ledger'
 import { Route as AdminCheckoffIndexRouteImport } from './routes/admin.checkoff.index'
 import { Route as AdminCheckoffBatchIdRouteImport } from './routes/admin.checkoff.$batchId'
 import { Route as AdminCheckoffExceptionsRouteImport } from './routes/admin.checkoff.exceptions'
@@ -320,6 +322,18 @@ const AdminAccountingAccountsRoute = AdminAccountingAccountsRouteImport.update({
   path: '/accounts',
   getParentRoute: () => AdminAccountingRoute,
 } as any)
+const AdminAccountingExceptionsRoute =
+  AdminAccountingExceptionsRouteImport.update({
+    id: '/exceptions',
+    path: '/exceptions',
+    getParentRoute: () => AdminAccountingRoute,
+  } as any)
+const AdminAccountingGeneralLedgerRoute =
+  AdminAccountingGeneralLedgerRouteImport.update({
+    id: '/general-ledger',
+    path: '/general-ledger',
+    getParentRoute: () => AdminAccountingRoute,
+  } as any)
 const AdminAccountingJournalsRoute = AdminAccountingJournalsRouteImport.update({
   id: '/journals',
   path: '/journals',
@@ -330,17 +344,18 @@ const AdminAccountingMappingsRoute = AdminAccountingMappingsRouteImport.update({
   path: '/mappings',
   getParentRoute: () => AdminAccountingRoute,
 } as any)
+const AdminAccountingReconciliationsRoute =
+  AdminAccountingReconciliationsRouteImport.update({
+    id: '/reconciliations',
+    path: '/reconciliations',
+    getParentRoute: () => AdminAccountingRoute,
+  } as any)
 const AdminAccountingTrialBalanceRoute =
   AdminAccountingTrialBalanceRouteImport.update({
     id: '/trial-balance',
     path: '/trial-balance',
     getParentRoute: () => AdminAccountingRoute,
   } as any)
-const AdminAccountingGeneralLedgerRoute = AdminAccountingGeneralLedgerRouteImport.update({
-  id: '/general-ledger',
-  path: '/general-ledger',
-  getParentRoute: () => AdminAccountingRoute,
-} as any)
 const AdminCheckoffIndexRoute = AdminCheckoffIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -606,10 +621,12 @@ export interface FileRoutesByFullPath {
   '/platform/': typeof PlatformIndexRoute
   '/portal/': typeof PortalIndexRoute
   '/admin/accounting/accounts': typeof AdminAccountingAccountsRoute
+  '/admin/accounting/exceptions': typeof AdminAccountingExceptionsRoute
+  '/admin/accounting/general-ledger': typeof AdminAccountingGeneralLedgerRoute
   '/admin/accounting/journals': typeof AdminAccountingJournalsRoute
   '/admin/accounting/mappings': typeof AdminAccountingMappingsRoute
+  '/admin/accounting/reconciliations': typeof AdminAccountingReconciliationsRoute
   '/admin/accounting/trial-balance': typeof AdminAccountingTrialBalanceRoute
-  '/admin/accounting/general-ledger': typeof AdminAccountingGeneralLedgerRoute
   '/admin/checkoff/$batchId': typeof AdminCheckoffBatchIdRoute
   '/admin/checkoff/exceptions': typeof AdminCheckoffExceptionsRoute
   '/admin/checkoff/import': typeof AdminCheckoffImportRoute
@@ -688,10 +705,12 @@ export interface FileRoutesByTo {
   '/platform': typeof PlatformIndexRoute
   '/portal': typeof PortalIndexRoute
   '/admin/accounting/accounts': typeof AdminAccountingAccountsRoute
+  '/admin/accounting/exceptions': typeof AdminAccountingExceptionsRoute
+  '/admin/accounting/general-ledger': typeof AdminAccountingGeneralLedgerRoute
   '/admin/accounting/journals': typeof AdminAccountingJournalsRoute
   '/admin/accounting/mappings': typeof AdminAccountingMappingsRoute
+  '/admin/accounting/reconciliations': typeof AdminAccountingReconciliationsRoute
   '/admin/accounting/trial-balance': typeof AdminAccountingTrialBalanceRoute
-  '/admin/accounting/general-ledger': typeof AdminAccountingGeneralLedgerRoute
   '/admin/checkoff/$batchId': typeof AdminCheckoffBatchIdRoute
   '/admin/checkoff/exceptions': typeof AdminCheckoffExceptionsRoute
   '/admin/checkoff/import': typeof AdminCheckoffImportRoute
@@ -781,10 +800,12 @@ export interface FileRoutesById {
   '/platform/': typeof PlatformIndexRoute
   '/portal/': typeof PortalIndexRoute
   '/admin/accounting/accounts': typeof AdminAccountingAccountsRoute
+  '/admin/accounting/exceptions': typeof AdminAccountingExceptionsRoute
+  '/admin/accounting/general-ledger': typeof AdminAccountingGeneralLedgerRoute
   '/admin/accounting/journals': typeof AdminAccountingJournalsRoute
   '/admin/accounting/mappings': typeof AdminAccountingMappingsRoute
+  '/admin/accounting/reconciliations': typeof AdminAccountingReconciliationsRoute
   '/admin/accounting/trial-balance': typeof AdminAccountingTrialBalanceRoute
-  '/admin/accounting/general-ledger': typeof AdminAccountingGeneralLedgerRoute
   '/admin/checkoff/$batchId': typeof AdminCheckoffBatchIdRoute
   '/admin/checkoff/exceptions': typeof AdminCheckoffExceptionsRoute
   '/admin/checkoff/import': typeof AdminCheckoffImportRoute
@@ -875,8 +896,11 @@ export interface FileRouteTypes {
     | '/platform/'
     | '/portal/'
     | '/admin/accounting/accounts'
+    | '/admin/accounting/exceptions'
+    | '/admin/accounting/general-ledger'
     | '/admin/accounting/journals'
     | '/admin/accounting/mappings'
+    | '/admin/accounting/reconciliations'
     | '/admin/accounting/trial-balance'
     | '/admin/checkoff/$batchId'
     | '/admin/checkoff/exceptions'
@@ -956,8 +980,11 @@ export interface FileRouteTypes {
     | '/platform'
     | '/portal'
     | '/admin/accounting/accounts'
+    | '/admin/accounting/exceptions'
+    | '/admin/accounting/general-ledger'
     | '/admin/accounting/journals'
     | '/admin/accounting/mappings'
+    | '/admin/accounting/reconciliations'
     | '/admin/accounting/trial-balance'
     | '/admin/checkoff/$batchId'
     | '/admin/checkoff/exceptions'
@@ -1047,8 +1074,11 @@ export interface FileRouteTypes {
     | '/platform/'
     | '/portal/'
     | '/admin/accounting/accounts'
+    | '/admin/accounting/exceptions'
+    | '/admin/accounting/general-ledger'
     | '/admin/accounting/journals'
     | '/admin/accounting/mappings'
+    | '/admin/accounting/reconciliations'
     | '/admin/accounting/trial-balance'
     | '/admin/checkoff/$batchId'
     | '/admin/checkoff/exceptions'
@@ -1415,6 +1445,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAccountingAccountsRouteImport
       parentRoute: typeof AdminAccountingRoute
     }
+    '/admin/accounting/exceptions': {
+      id: '/admin/accounting/exceptions'
+      path: '/exceptions'
+      fullPath: '/admin/accounting/exceptions'
+      preLoaderRoute: typeof AdminAccountingExceptionsRouteImport
+      parentRoute: typeof AdminAccountingRoute
+    }
+    '/admin/accounting/general-ledger': {
+      id: '/admin/accounting/general-ledger'
+      path: '/general-ledger'
+      fullPath: '/admin/accounting/general-ledger'
+      preLoaderRoute: typeof AdminAccountingGeneralLedgerRouteImport
+      parentRoute: typeof AdminAccountingRoute
+    }
     '/admin/accounting/journals': {
       id: '/admin/accounting/journals'
       path: '/journals'
@@ -1429,18 +1473,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAccountingMappingsRouteImport
       parentRoute: typeof AdminAccountingRoute
     }
+    '/admin/accounting/reconciliations': {
+      id: '/admin/accounting/reconciliations'
+      path: '/reconciliations'
+      fullPath: '/admin/accounting/reconciliations'
+      preLoaderRoute: typeof AdminAccountingReconciliationsRouteImport
+      parentRoute: typeof AdminAccountingRoute
+    }
     '/admin/accounting/trial-balance': {
       id: '/admin/accounting/trial-balance'
       path: '/trial-balance'
       fullPath: '/admin/accounting/trial-balance'
       preLoaderRoute: typeof AdminAccountingTrialBalanceRouteImport
-      parentRoute: typeof AdminAccountingRoute
-    }
-    '/admin/accounting/general-ledger': {
-      id: '/admin/accounting/general-ledger'
-      path: '/general-ledger'
-      fullPath: '/admin/accounting/general-ledger'
-      preLoaderRoute: typeof AdminAccountingGeneralLedgerRouteImport
       parentRoute: typeof AdminAccountingRoute
     }
     '/admin/checkoff/': {
@@ -1742,19 +1786,23 @@ declare module '@tanstack/react-router' {
 
 interface AdminAccountingRouteChildren {
   AdminAccountingAccountsRoute: typeof AdminAccountingAccountsRoute
+  AdminAccountingExceptionsRoute: typeof AdminAccountingExceptionsRoute
+  AdminAccountingGeneralLedgerRoute: typeof AdminAccountingGeneralLedgerRoute
   AdminAccountingJournalsRoute: typeof AdminAccountingJournalsRoute
   AdminAccountingMappingsRoute: typeof AdminAccountingMappingsRoute
+  AdminAccountingReconciliationsRoute: typeof AdminAccountingReconciliationsRoute
   AdminAccountingTrialBalanceRoute: typeof AdminAccountingTrialBalanceRoute
-  AdminAccountingGeneralLedgerRoute: typeof AdminAccountingGeneralLedgerRoute
   AdminAccountingIndexRoute: typeof AdminAccountingIndexRoute
 }
 
 const AdminAccountingRouteChildren: AdminAccountingRouteChildren = {
   AdminAccountingAccountsRoute: AdminAccountingAccountsRoute,
+  AdminAccountingExceptionsRoute: AdminAccountingExceptionsRoute,
+  AdminAccountingGeneralLedgerRoute: AdminAccountingGeneralLedgerRoute,
   AdminAccountingJournalsRoute: AdminAccountingJournalsRoute,
   AdminAccountingMappingsRoute: AdminAccountingMappingsRoute,
+  AdminAccountingReconciliationsRoute: AdminAccountingReconciliationsRoute,
   AdminAccountingTrialBalanceRoute: AdminAccountingTrialBalanceRoute,
-  AdminAccountingGeneralLedgerRoute: AdminAccountingGeneralLedgerRoute,
   AdminAccountingIndexRoute: AdminAccountingIndexRoute,
 }
 

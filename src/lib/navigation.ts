@@ -28,6 +28,7 @@ import {
   Layers,
   FileUp,
   ShieldAlert,
+  Scale,
 } from "lucide-react";
 
 export type NavItem = {
@@ -125,6 +126,8 @@ export const adminNav: NavGroup[] = [
     items: [
       { label: "Accounting", to: "/admin/accounting", icon: BookOpenCheck, permission: "accounting.view" },
       { label: "General ledger", to: "/admin/accounting/general-ledger", icon: BookOpenCheck, permission: "accounting.view" },
+      { label: "Reconciliations", to: "/admin/accounting/reconciliations", icon: Scale, permission: "accounting.view" },
+      { label: "Accounting exceptions", to: "/admin/accounting/exceptions", icon: ShieldAlert, permission: "accounting.view" },
       { label: "Banking", to: "/admin/banking", icon: CreditCard, permission: "banking.view", placeholder: true },
       { label: "Treasury", to: "/admin/treasury", icon: CircleDollarSign, permission: "treasury.view", placeholder: true },
       { label: "Reports", to: "/admin/reports", icon: BarChart3, permission: "reports.view", placeholder: true },
